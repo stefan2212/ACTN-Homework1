@@ -36,9 +36,11 @@ public class Encoding {
 
     private BigInteger calculateP(BigInteger x){
         BigInteger rez=new BigInteger("0");
-        for(int i=0;i<k.intValue()-1;i++){
-            rez=rez.add(a[i].multiply(x.pow(k.intValue()-1-i)));
+        rez=a[0];
+        for(int i=1;i<k.intValue()-1;i++){
+            rez=(rez.multiply(x)).add(a[i]);
         }
+        rez=rez.multiply(x);
         return rez.divideAndRemainder(p)[1];
     }
 
