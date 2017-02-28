@@ -20,5 +20,6 @@ public class Input {
         p=new BigInteger("11");
         Encoding encode=new Encoding(m,p,k,n,s);
         encode.setY();
+        encode.writeIntoFiley();
     }
 }

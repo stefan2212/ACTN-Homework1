@@ -6,5 +6,7 @@ import java.math.BigInteger;
         public class Main {
             public static void main(String[] args) {
                 Input input=new Input(new BigInteger("29"));
+                Decoding out=new Decoding("vectorY.txt");
+                out.readFromTheFile();
     }
 }

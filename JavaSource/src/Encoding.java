@@ -1,5 +1,8 @@
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.math.BigInteger;
-
+import java.io.BufferedWriter;
 /**
  * Created by stfcr on 2/27/2017.
  */
@@ -17,10 +20,7 @@ public class Encoding {
     private void setA(){
         a=m.divideAndRemainder(p);
         while(a[0].compareTo(p)==1)
-            shifToLeftAndAddNew(p);
-        for(int i=0;i<a.length;i++)
-            System.out.println(a[i]);
-    }
+            shiftToRightAndAddNew(p);}
 
     public void setY(){
         setA();
@@ -30,8 +30,6 @@ public class Encoding {
             y[iterator.intValue()]=calculateP(iterator.add(new BigInteger("1")));
             iterator=iterator.add(new BigInteger("1"));
         }
-        for (int i=0;i<y.length;i++)
-            System.out.println(y[i]);
     }
 
     private BigInteger calculateP(BigInteger x){
@@ -44,7 +42,7 @@ public class Encoding {
         return rez.divideAndRemainder(p)[1];
     }
 
-    public void shifToLeftAndAddNew(BigInteger p){
+    public void shiftToRightAndAddNew(BigInteger p){
         BigInteger [] rest=new BigInteger[a.length];
         for(int i=0;i<a.length;i++)
             rest[i]=a[i];
@@ -54,6 +52,23 @@ public class Encoding {
         a[1]=impartire2[1];
         for(int i=1;i<rest.length;i++)
             a[i+1]=rest[i];
+
+    }
+
+    public void writeIntoFiley() {
+        try {
+            String toFile="";
+            for (int i=0;i<y.length;i++)
+            {
+                toFile+=y[i].toString()+" ";
+            }
+            BufferedWriter bw=new BufferedWriter(new FileWriter("vectorY.txt"));
+            bw.write(p.toString()+"\n");
+            bw.write(toFile);
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
