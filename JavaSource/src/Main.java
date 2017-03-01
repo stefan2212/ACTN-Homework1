@@ -8,5 +8,6 @@ import java.math.BigInteger;
                 Input input=new Input(new BigInteger("29"));
                 Decoding out=new Decoding("vectorY.txt");
                 out.readFromTheFile();
+                out.pickZ();
     }
 }

@@ -64,6 +64,7 @@ public class Encoding {
             }
             BufferedWriter bw=new BufferedWriter(new FileWriter("vectorY.txt"));
             bw.write(p.toString()+"\n");
+            bw.write(k.toString()+"\n");
             bw.write(toFile);
             bw.close();
         } catch (IOException e) {
