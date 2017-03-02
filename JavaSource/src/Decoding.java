@@ -1,3 +1,5 @@
+import javafx.util.converter.BigIntegerStringConverter;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -47,9 +49,14 @@ public class Decoding {
 
     public void bkt(BigInteger[] Z, int len, int startPosition, BigInteger[] result) {
         if (len == 0) {
-            BigInteger [] A=new BigInteger[k.intValue()];
+            BigInteger [] A;
+            BigInteger [] B;
             A=obtainA(result);
-            fc0(result,A);
+            B=A;
+            if(fc0(result,A).intValue()==0)
+                prettyPrint(B);
+
+
         } else
             for (int i = startPosition; i <= Z.length - len; i++) {
                 result[result.length - len] = Z[i];
@@ -74,40 +81,51 @@ public class Decoding {
             numitori[i]=new BigInteger("1");
         }
         for(int i=0;i<k.intValue();i++) {
-            BigInteger produs=new BigInteger("1");
             for (int j = 0; j < k.intValue(); j++) {
                 if(i!=j) {
                     BigInteger J = A[j];
                     BigInteger JminusI = A[j].subtract(A[i]);
+                    if (JminusI.compareTo(new BigInteger("0"))==-1)
+                        JminusI=invers(JminusI.abs());
                     numaratori[i] = numaratori[i].multiply(J);
                     numitori[i] = numitori[i].multiply(JminusI);
+                    if(numaratori[i].compareTo(p)==1 || numaratori[i].compareTo(p)==0)
+                        numaratori[i]=numaratori[i].divideAndRemainder(p)[1];
+                    if(numitori[i].compareTo(p)==1 || numitori[i].compareTo(p)==0)
+                        numitori[i]=numitori[i].divideAndRemainder(p)[1];
                 }
             }
-            BigInteger numDiferit=new BigInteger("1");
-            for(int j=0;j<k.intValue();j++)
-            {
-                if(j!=i)
-                numDiferit=numDiferit.multiply(numitori[j]);
-            }
-        numaratorMare=numaratorMare.add(z[A[i].intValue()-1].multiply(numDiferit));
+
         }
+        BigInteger []numDiferit=new BigInteger[k.intValue()];
         for(int i=0;i<k.intValue();i++)
-            if(numitori[i].compareTo(new BigInteger("0"))==1) {
-                numitori[i]=invers(numitori[i]);
-                numitorMare = numitorMare.multiply((numitori[i]));
+            numDiferit[i]=new BigInteger("1");
+        for(int i=0;i<k.intValue();i++) {
+            for (int j = 0; j < k.intValue(); j++) {
+                if (j != i)
+                    numDiferit[i] = numDiferit[i].multiply(numitori[j]);
             }
+            numaratorMare = numaratorMare.add(vector[i].multiply(numDiferit[i]).multiply(numaratori[i]));
+        }
+        for(int i=0;i<k.intValue();i++) {
+            numitorMare = numitorMare.multiply((numitori[i]));
+        }
+
         numitorMare=numitorMare.divideAndRemainder(p)[1];
-        return numaratorMare.multiply(numitorMare.modInverse(p));
+        numaratorMare=numaratorMare.divideAndRemainder(p)[1];
+        if(numitorMare.compareTo(new BigInteger("0"))==0 || numaratorMare.compareTo(new BigInteger("0"))==0)
+            return new BigInteger("0");
+        return numaratorMare.multiply((numitorMare.modInverse(p)));
     }
 
     private BigInteger invers(BigInteger x){
         BigInteger it=new BigInteger("1");
+        BigInteger sum=new BigInteger("0");
         while(it.compareTo(p)==-1)
         {
-            BigInteger sum=new BigInteger("0");
             sum=x.add(it);
             if (sum.compareTo(p)==0)
-                return sum;
+                return it;
             it=it.add(new BigInteger("1"));
         }
         return new BigInteger("0");
