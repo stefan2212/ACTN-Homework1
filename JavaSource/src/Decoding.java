@@ -176,8 +176,10 @@ public class Decoding {
         numitori=numitori.modInverse(p);
         for(int i=0;i<rezultat.size();i++)
             rezultat.set(i,(rezultat.get(i).multiply(numitori)).mod(p));
-        System.out.println(rezultat);
         BigInteger reconstructie=new BigInteger("0");
+        for(int i=0;i<k.intValue()-1;i++)
+            reconstructie=reconstructie.add((rezultat.get(i).multiply((p.pow(k.intValue()-2-i)))));
+        System.out.println(reconstructie);
         return new BigInteger("0");
     }
 
