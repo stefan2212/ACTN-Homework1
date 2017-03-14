@@ -1,8 +1,7 @@
+import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.math.BigInteger;
-import java.io.BufferedWriter;
 /**
  * Created by stfcr on 2/27/2017.
  */
@@ -20,7 +19,11 @@ public class Encoding {
     private void setA(){
         a=m.divideAndRemainder(p);
         while(a[0].compareTo(p)==1)
-            shiftToRightAndAddNew(p);}
+            shiftToRightAndAddNew(p);
+        while(a.length<k.intValue()-1)
+            paddA();
+    }
+
 
     public void setY(){
         setA();
@@ -53,6 +56,16 @@ public class Encoding {
         for(int i=1;i<rest.length;i++)
             a[i+1]=rest[i];
 
+    }
+
+    private void paddA(){
+        BigInteger []rest=new BigInteger[a.length];
+        for(int i=0;i<a.length;i++)
+            rest[i]=a[i];
+        a=new BigInteger[rest.length+1];
+        a[0]= BigInteger.valueOf(0);
+        for(int i=0;i<rest.length;i++)
+            a[i+1]=rest[i];
     }
 
     public void writeIntoFiley() {

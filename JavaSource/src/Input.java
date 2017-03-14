@@ -17,7 +17,7 @@ public class Input {
         s=new BigInteger("1");
         n=new BigInteger((String.valueOf(k.add(s.multiply(new BigInteger("2"))))));
         p=BigInteger.probablePrime(256,rand);
-        //p=new BigInteger("11");
+        p=new BigInteger("11");
         Encoding encode=new Encoding(m,p,k,n,s);
         encode.setY();
         encode.writeIntoFiley();
